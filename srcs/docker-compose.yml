@@ -2,7 +2,7 @@ services:
   mariadb:
     image: mariadb
     build: ./requirements/mariadb
-    pullpolicy: never
+    pull_policy: never
     restart: on-failure
     env_file: .env
     secrets:
@@ -16,7 +16,7 @@ services:
   wordpress:
     image: wordpress
     build: ./requirements/wordpress
-    pullpolicy: never
+    pull_policy: never
     restart: on-failure
     env_file: .env
     secrets:
@@ -33,7 +33,7 @@ services:
   nginx:
     image: nginx
     build: ./requirements/nginx
-    pullpolicy: never
+    pull_policy: never
     restart: on-failure
     env_file: .env
     ports:
