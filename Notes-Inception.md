@@ -1,5 +1,9 @@
 # Notes Inception pêle-mêle
 
+## Questions to prepare
+- What is stored where ?
+- Port infrastructure (where are they set and handled)
+
 ## VM setup
 - Guest additions: yes (for shared folders)
 - Proceed with unattended installation
@@ -32,6 +36,17 @@
 > MariaDB entrypoint checks if the data dir is empty, initializes DB once, then starts mysqld in foreground. It reads secrets from /run/secrets/... so no passwords live in the Dockerfile or .env.<br>
 > WordPress entrypoint waits for DB to accept connections, downloads WordPress if not present, writes wp-config.php, runs the WP install, and creates the second user. Then it runs php-fpm in the foreground.<br>
 > NGINX entrypoint creates a self‑signed cert if missing, substitutes your domain into the config template, and runs NGINX in foreground with TLSv1.2/1.3 only.
+
+## [Volumes](https://docs.docker.com/engine/storage/)
+### Volume mounts
+Volumes are persistent storage mechanisms managed by the Docker daemon. They retain data even after the containers using them are removed. Volume data is stored on the filesystem on the host, but in order to interact with the data in the volume, you must mount the volume to a container. Directly accessing or interacting with the volume data is unsupported, undefined behavior, and may result in the volume or its data breaking in unexpected ways.
+
+Volumes are ideal for performance-critical data processing and long-term storage needs. Since the storage location is managed on the daemon host, volumes provide the same raw file performance as accessing the host filesystem directly.
+
+### Bind mounts
+Bind mounts create a direct link between a host system path and a container, allowing access to files or directories stored anywhere on the host. Since they aren't isolated by Docker, both non-Docker processes on the host and container processes can modify the mounted files simultaneously.
+
+Use bind mounts when you need to be able to access files from both the container and the host.
 
 ## Secrets
 > In Compose, when you attach a secret to a service:
@@ -148,8 +163,9 @@ Why it exists: WordPress’s front controller is index.php, and any direct PHP f
 - to change wordpress user name: 
 ```bash
 make down
-rm -rf /home/fallan/data/db/*
-rm -rf /home/fallan/data/wp/*
+docker volume ls
+docker volume rm srcs_<volume name>
+docker volume rm srcs_<volume name>
 make up
 ```
 
