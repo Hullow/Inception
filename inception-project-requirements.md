@@ -1,7 +1,6 @@
 Inception
-
 Summary: This document is a System Administration related exercise.
-Version: 5.1
+Version: 5.2
 Contents
 I Preamble 2
 II Introduction 3
@@ -12,17 +11,17 @@ VI Readme Requirements 12
 VII Prerequisites for validation 14
 VIII Bonus part 15
 IX Submission and peer-evaluation 16
-1
 
+Chapter I
 Preamble
-2
 
+Chapter II
 Introduction
 This project aims to broaden your knowledge of system administration by using Docker.
 You will virtualize several Docker images, creating them in your new personal virtual
 machine.
-3
 
+Chapter III
 General guidelines
 • This project needs to be done on a Virtual Machine.
 • All the files required for the configuration of your project must be placed in a srcs
@@ -30,13 +29,14 @@ folder.
 • A Makefile is also required and must be located at the root of your directory. It
 must set up your entire application (i.e., it has to build the Docker images using
 docker-compose.yml).
-• This subject requires putting into practice concepts that, depending on your background, you may not have learned yet. Therefore, we advise you not to hesitate to
+• This subject requires putting into practice concepts that, depending on your back-
+ground, you may not have learned yet. Therefore, we advise you not to hesitate to
 read a lot of documentation related to Docker usage, as well as anything else you
 will find helpful in order to complete this assignment.
-4
 
 (skipped)
 
+Chapter V
 Mandatory part
 This project consists of having you set up a small infrastructure composed of different
 services under specific rules. The whole project has to be done in a virtual machine. You
@@ -57,14 +57,17 @@ configured) only, without nginx.
 • A Docker container that contains MariaDB only, without nginx.
 • A volume that contains your WordPress database.
 • A second volume that contains your WordPress website files.
+• You must use Docker named volumes for these two persistent storages. Bind
+mounts are not allowed for these volumes.
+• Both named volumes must store their data inside /home/login/data on the host
+machine. Replace "login" with your learner’s username.
 • A docker-network that establishes the connection between your containers.
 Your containers have to restart in case of a crash.
+
 A Docker container is not a virtual machine. Thus, it is not
 recommended to use any hacky patches based on ’tail -f’ and similar
 methods when trying to run it. Read about how daemons work and
 whether it’s a good idea to use them or not.
-7
-Inception
 Of course, using network: host or --link or links: is forbidden.
 The network line must be present in your docker-compose.yml file.
 Your containers must not be started with a command running an
@@ -73,7 +76,9 @@ entrypoint, or used in entrypoint scripts. The following are a
 few prohibited hacky patches: tail -f, bash, sleep infinity, while
 true.
 Read about PID 1 and the best practices for writing Dockerfiles.
-• In your WordPress database, there must be two users, one of them being the administrator. The administrator’s username can’t contain admin/Admin or administrator/Administrator (e.g., admin, administrator, Administrator, admin-123, and
+• In your WordPress database, there must be two users, one of them being the ad-
+ministrator. The administrator’s username can’t contain admin/Admin or admin-
+istrator/Administrator (e.g., admin, administrator, Administrator, admin-123, and
 so forth).
 Your volumes will be available in the /home/login/data folder of the
 host machine using Docker. Of course, you have to replace the login
@@ -94,11 +99,9 @@ configured secrets) will result in project failure.
 Your NGINX container must be the only entrypoint into your
 infrastructure via the port 443 only, using the TLSv1.2 or TLSv1.3
 protocol.
-8
-Inception
+
 Here is an example diagram of the expected result:
-9
-Inception
+
 Below is an example of the expected directory structure:
 $> ls -alR
 total XX
@@ -154,16 +157,16 @@ DOMAIN_NAME=wil.42.fr
 MYSQL_USER=XXXXXXXXXXXX
 [...]
 $>
+
 For obvious security reasons, any credentials, API keys, passwords,
 etc., must be saved locally in various ways/files and ignored by git.
 Publicly stored credentials will lead you directly to a failure of
 the project.
-10
-Inception
+
 You can store your variables (as a domain name) in an environment
 variable file like .env
-11
 
+Chapter VI
 Readme Requirements
 A README.md file must be provided at the root of your Git repository. Its purpose is
 to allow anyone unfamiliar with the project (peers, staff, recruiters, etc.) to quickly
@@ -176,7 +179,8 @@ of the 42 curriculum by <login1>[, <login2>[, <login3>[...]]].
 brief overview.
 • An “Instructions” section containing any relevant information about compilation,
 installation, and/or execution.
-• A “Resources” section listing classic references related to the topic (documentation, articles, tutorials, etc.), as well as a description of how AI was used —
+• A “Resources” section listing classic references related to the topic (documen-
+tation, articles, tutorials, etc.), as well as a description of how AI was used —
 specifying for which tasks and which parts of the project.
 ➠ Additional sections may be required depending on the project (e.g., usage
 examples, feature list, technical choices, etc.).
@@ -188,11 +192,10 @@ comparison between:
 ◦ Secrets vs Environment Variables
 ◦ Docker Network vs Host Network
 ◦ Docker Volumes vs Bind Mounts
-12
-Inception
-Your README must be written in English.
-13
 
+Your README must be written in English.
+
+Chapter VII
 Prerequisites for validation
 In addition to the existing requirements, the following documentation files must be present
 at the root of your repository. They must be written in Markdown format (.md).
@@ -203,49 +206,31 @@ terms, how an end user or administrator can:
 ◦ Access the website and the administration panel.
 ◦ Locate and manage credentials.
 ◦ Check that the services are running correctly.
-• DEV_DOC.md — Developer documentation This file must describe how a developer can:
-◦ Set up the environment from scratch (prerequisites, configuration files, secrets).
+• DEV_DOC.md — Developer documentation This file must describe how a devel-
+oper can:
+◦ Set up the environment from scratch (prerequisites, configuration files, se-
+crets).
 ◦ Build and launch the project using the Makefile and Docker Compose.
 ◦ Use relevant commands to manage the containers and volumes.
 ◦ Identify where the project data is stored and how it persists.
-14
 
-Bonus part
-For this project, the bonus part is intended to be simple.
-A Dockerfile must be written for each additional service. Thus, each service will run
-inside its own container and will have, if necessary, its dedicated volume.
-Bonus list:
-• Set up redis cache for your WordPress website in order to properly manage the
-cache.
-• Set up a FTP server container pointing to the volume of your WordPress website.
-• Create a simple static website in the language of your choice except PHP (yes, PHP
-is excluded). For example, a showcase site or a site for presenting your resume.
-• Set up Adminer.
-• Set up a service of your choice that you think is useful. During the defense, you
-will have to justify your choice.
-To complete the bonus part, you have the possibility to set up extra
-services. In this case, you may open more ports to suit your needs.
-The bonus part will only be assessed if the mandatory part is
-completed perfectly. Perfect means the mandatory part has been
-fully completed and functions without any malfunctions. If you have
-not passed ALL the mandatory requirements, your bonus part will not
-be evaluated at all.
-15
+(skipped)
 
+Chapter IX
 Submission and peer-evaluation
 Submit your assignment in your Git repository as usual. Only the work inside your
 repository will be evaluated during the defense. Don’t hesitate to double-check the names
 of your folders and files to ensure they are correct.
-During the evaluation, a brief modification of the project may occasionally be requested. This could involve a minor behavior change, a few lines of code to write or
+During the evaluation, a brief modification of the project may occasionally be re-
+quested. This could involve a minor behaviour change, a few lines of code to write or
 rewrite, or an easy-to-add feature.
 While this step may not be applicable to every project, you must be prepared for it
 if it is mentioned in the evaluation guidelines.
 This step is meant to verify your actual understanding of a specific part of the project.
 The modification can be performed in any development environment you choose (e.g.,
-your usual setup), and it should be feasible within a few minutes — unless a specific
-timeframe is defined as part of the evaluation.
+your usual setup), and it should be feasible within a few minutes — unless a specific time
+frame is defined as part of the evaluation.
 You can, for example, be asked to make a small update to a function or script, modify a
 display, or adjust a data structure to store new information, etc.
 The details (scope, target, etc.) will be specified in the evaluation guidelines and may
 vary from one evaluation to another for the same project.
-16

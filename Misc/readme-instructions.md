@@ -13,7 +13,7 @@ Scope to verify (must check all):
 - Images built from Dockerfiles (no prebuilt images pulled, except base OS).
 - Services: NGINX with TLSv1.2/1.3 only; WordPress + php-fpm (no nginx inside); MariaDB (no nginx).
 - NGINX is only entrypoint and only port 443 exposed.
-- Volumes: one for DB, one for WordPress files; host path `/home/<login>/data/...`.
+- Volumes: one for DB, one for WordPress files; host path `/home/<login>/data/...`. Volumes must be named volumes, and NOT bind mounts
 - Containers restart on crash; no infinite loops or hacky keep‑alive (`tail -f`, `sleep infinity`, etc). PID1 best practices.
 - DB has two WP users; admin username must NOT contain admin/Admin/administrator.
 - Domain configured as `<login>.42.fr`.
