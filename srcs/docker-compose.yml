@@ -37,7 +37,7 @@ services:
     restart: on-failure
     env_file: .env
     ports:
-      - "443:443"
+      - "2001:2001"
     volumes:
       - wp_data:/var/www/html:ro # read only for security: nginx cannot change files, only serve them
     depends_on:
