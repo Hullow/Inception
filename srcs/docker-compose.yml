@@ -1,6 +1,6 @@
 services:
   mariadb:
-    image: mariadb-inception
+    image: mariadb
     build: ./requirements/mariadb
     pull_policy: never
     restart: on-failure
@@ -14,7 +14,7 @@ services:
       - inception
 
   wordpress:
-    image: wordpress-inception
+    image: wordpress
     build: ./requirements/wordpress
     pull_policy: never
     restart: on-failure
@@ -31,7 +31,7 @@ services:
       - inception
 
   nginx:
-    image: nginx-inception
+    image: nginx
     build: ./requirements/nginx
     pull_policy: never
     restart: on-failure
@@ -39,7 +39,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wp_data:/var/www/html:ro
+      - wp_data:/var/www/html:ro # read only for security: nginx cannot change files, only serve them
     depends_on:
       - wordpress
     networks:
@@ -47,7 +47,18 @@ services:
 
 volumes:
   db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/fallan/data/db
+
   wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/fallan/data/wp
 
 networks:
   inception:
