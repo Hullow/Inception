@@ -39,7 +39,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wp_data:/var/www/html:ro
+      - wp_data:/var/www/html:ro # read only for security: nginx cannot change files, only serve them
     depends_on:
       - wordpress
     networks:
