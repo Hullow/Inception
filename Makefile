@@ -24,4 +24,4 @@ logs:
 
 re: down up
 
-.PHONY: all up down build ps logs re
+.PHONY: all prepare up down build ps logs re
