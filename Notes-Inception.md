@@ -2,6 +2,7 @@
 
 ## Questions to prepare
 - What is stored where ?
+Volumes are stored in `/var/lib/docker/volumes/`
 - Port infrastructure (where are they set and handled)
 
 ## VM setup
@@ -160,7 +161,10 @@ Why it exists: WordPress’s front controller is index.php, and any direct PHP f
 ## Tests
 - in host, website up: curl -k https://fallan.42.fr
 - in browser: https://fallan.42.fr
-- to change wordpress user name: 
+- show that volume is not bind mount: `docker volume inspect <volume_name>``
+=> mountpoint: `/var/lib/docker/volumes/`
+`docker exec -it <container_id> ls -la <container_volume_path>`
+- to change wordpress user name, remove volume
 ```bash
 make down
 docker volume ls
