@@ -1,13 +1,13 @@
 COMPOSE = docker compose -f srcs/docker-compose.yml --env-file srcs/.env
+DATA_DIR = /home/fallan/data
 
 all: up
 
-up:
-	$(COMPOSE) up --detach --build
+prepare:
+	mkdir -p $(DATA_DIR)/db $(DATA_DIR)/wp
 
-attached:
-	down
-	$(COMPOSE) up --build
+up: prepare
+	$(COMPOSE) up --detach --build
 
 # stop and remove containers and networks (default: but not volumes and images)
 down:
